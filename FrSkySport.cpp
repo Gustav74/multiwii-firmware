@@ -9,11 +9,19 @@
 
 /*
  FrSky Smart Port (SPort) support for MultiWii.
+ 
+ Author:  Dan McDougall <riskable@youknowwhat.com>
+ 
+ Note:  I have no idea what I'm doing!  Hopefully people with more C++ experience will improve this code.
 
  For this to work you'll need to add the following to config.h:
 
-    #define FRSKY_SPORT
     #define FRSKY_SPORT_SERIAL 3 // Use the correct serial port
+    // Probably also want to add these as well:
+    #define FRSKY_SPORT_A2_MAX       126   // Voltage is FRSKY_SPORT_A2_MAX/10.  E.g. if you set A2 max to 12.6 in companion9x set this to 126.
+    #define FRSKY_SPORT_TEMPERATURE1 BARO  // Just BARO for now (to read baroTemperature).  Shows up (very innacurately) as T1 in OpenTx
+    
+NOTE:  If you've checked out this code from my (liftoff) repo on Github the FrSky settings should already be present in config.h--just make sure they're correct for your setup.
 
  Also set your serial speed of the chosen serial port to 57600:
 
@@ -22,7 +30,7 @@
  Next you'll need to add this at the top of MultiWii.cpp:
  
     #include "FrSkySport.h"
-    
+
  ...and just above the call to computeIMU() (line ~1130) add this line:
  
     FrSkySport_busCheck();
@@ -32,9 +40,11 @@
     FrSkySport_busCheck();
     computeIMU();
 
+NOTE:  If you got this code from lifotff fork on Github MultiWii.cpp has already been modified.
+
 */
 
-//#if defined(FRSKY_SPORT)
+#ifdef FRSKY_SPORT_SERIAL
 
 short FrSkySport_crc;
 
@@ -189,5 +199,5 @@ void FrSkySport_sendRPM() {
 }
 
 
-//#endif // defined(FRSKY_SPORT)
+#endif // FRSKY_SPORT_SERIAL
 

@@ -25,6 +25,7 @@ November  2013     V2.3
 #include "Serial.h"
 #include "GPS.h"
 #include "Protocol.h"
+#include "FrSkySport.cpp"
 
 #include <avr/pgmspace.h>
 
@@ -1135,6 +1136,7 @@ void loop () {
     }
   }
  
+  FrSkySport_busCheck();
   computeIMU();
   // Measure loop rate just afer reading the sensors
   currentTime = micros();

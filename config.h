@@ -36,7 +36,7 @@
     //#define BI
     //#define TRI
     //#define QUADP
-    //#define QUADX
+    #define QUADX
     //#define Y4
     //#define Y6
     //#define HEX6
@@ -52,7 +52,7 @@
     //#define DUALCOPTER
     //#define HELI_120_CCPM
     //#define HELI_90_DEG
-
+f
   /****************************    Motor minthrottle    *******************************/
     /* Set the minimum throttle command sent to the ESC (Electronic Speed Controller)
        This is the minimum value that allow motors to run at a idle speed  */
@@ -365,6 +365,12 @@
       //#define SBUS
       #define SBUS_SERIAL_PORT 1
       #define SBUS_MID_OFFSET 988 //SBUS Mid-Point at 1500
+      
+    /********************************    FRSKY SMART PORT TELEMETRY    ***********************************/
+    // Uncomment this to enable FrSky Smart Port support:
+    #define FRSKY_SPORT_SERIAL       3     // Use Tx3 and Rx3
+    #define FRSKY_SPORT_A2_MAX       126   // Voltage is FRSKY_SPORT_A2_MAX/10.  E.g. if you set A2 max to 12.6 in companion9x set this to 126.
+    #define FRSKY_SPORT_TEMPERATURE1 BARO  // Just BARO for now (to read baroTemperature)
 
 /*************************************************************************************************/
 /*****************                                                                 ***************/
