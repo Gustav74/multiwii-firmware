@@ -25,7 +25,7 @@ November  2013     V2.3
 #include "Serial.h"
 #include "GPS.h"
 #include "Protocol.h"
-#include "FrSkySport.cpp"
+#include "FrSkySport.h"
 
 #include <avr/pgmspace.h>
 

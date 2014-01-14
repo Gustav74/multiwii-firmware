@@ -52,7 +52,7 @@
     //#define DUALCOPTER
     //#define HELI_120_CCPM
     //#define HELI_90_DEG
-f
+
   /****************************    Motor minthrottle    *******************************/
     /* Set the minimum throttle command sent to the ESC (Electronic Speed Controller)
        This is the minimum value that allow motors to run at a idle speed  */
@@ -72,8 +72,8 @@ f
     #define MINCOMMAND  1000
 
   /**********************************  I2C speed for old WMP config (useless config for other sensors)  *************/
-    #define I2C_SPEED 100000L     //100kHz normal mode, this value must be used for a genuine WMP
-    //#define I2C_SPEED 400000L   //400kHz fast mode, it works only with some WMP clones
+    //#define I2C_SPEED 100000L     //100kHz normal mode, this value must be used for a genuine WMP
+    #define I2C_SPEED 400000L   //400kHz fast mode, it works only with some WMP clones
 
   /***************************    Internal i2c Pullups   ********************************/
     /* enable internal I2C pull ups (in most cases it is better to use external pullups) */
@@ -139,7 +139,7 @@ f
       //#define Bobs_9DOF_V1     // BobsQuads 9DOF V1 with ITG3200, BMA180 & HMC5883L
       //#define Bobs_10DOF_BMP_V1 // BobsQuads 10DOF V1 with ITG3200, BMA180, HMC5883L & BMP180 - BMP180 is software compatible with BMP085
       //#define FLYDUINO_MPU       // MPU6050 Break Out onboard 3.3V reg
-      //#define CRIUS_AIO_PRO_V1
+      #define CRIUS_AIO_PRO_V1
       //#define DESQUARED6DOFV2GO  // DEsquared V2 with ITG3200 only
       //#define DESQUARED6DOFV4    // DEsquared V4 with MPU6050
       //#define LADYBIRD
@@ -365,12 +365,6 @@ f
       //#define SBUS
       #define SBUS_SERIAL_PORT 1
       #define SBUS_MID_OFFSET 988 //SBUS Mid-Point at 1500
-      
-    /********************************    FRSKY SMART PORT TELEMETRY    ***********************************/
-    // Uncomment this to enable FrSky Smart Port support:
-    #define FRSKY_SPORT_SERIAL       3     // Use Tx3 and Rx3
-    #define FRSKY_SPORT_A2_MAX       126   // Voltage is FRSKY_SPORT_A2_MAX/10.  E.g. if you set A2 max to 12.6 in companion9x set this to 126.
-    #define FRSKY_SPORT_TEMPERATURE1 BARO  // Just BARO for now (to read baroTemperature)
 
 /*************************************************************************************************/
 /*****************                                                                 ***************/
@@ -446,7 +440,7 @@ f
 
   /* only enable any of this if you must change the default pin assignment, e.g. your board does not have a specific pin */
   /* you may need to change PINx and PORTx plus #shift according to the desired pin! */
-  //#define OVERRIDE_V_BATPIN                   A0 // instead of A3    // Analog PIN 3
+  #define OVERRIDE_V_BATPIN                   A3 // instead of A3    // Analog PIN 3
 
   //#define OVERRIDE_PSENSORPIN                 A1 // instead of A2    // Analog PIN 2
 
@@ -470,7 +464,7 @@ f
     #define SERIAL0_COM_SPEED 115200
     #define SERIAL1_COM_SPEED 115200
     #define SERIAL2_COM_SPEED 115200
-    #define SERIAL3_COM_SPEED 115200
+    #define SERIAL3_COM_SPEED 57600 // FrSky Smart Port
 
     /* interleaving delay in micro seconds between 2 readings WMP/NK in a WMP+NK config
        if the ACC calibration time is very long (20 or 30s), try to increase this delay up to 4000
@@ -587,15 +581,15 @@ f
     //#define LED_RING
 
   /********************************    LED FLASHER    ***********************************/
-    //#define LED_FLASHER
-    //#define LED_FLASHER_DDR DDRB
-    //#define LED_FLASHER_PORT PORTB
-    //#define LED_FLASHER_BIT PORTB4
+    #define LED_FLASHER
+    #define LED_FLASHER_DDR DDRB
+    #define LED_FLASHER_PORT PORTB
+    #define LED_FLASHER_BIT PORTB4 // D10 on AIOP 2.0 (it's a motor port)
     //#define LED_FLASHER_INVERT
-    //#define LED_FLASHER_SEQUENCE        0b00000000      // leds OFF
-    //#define LED_FLASHER_SEQUENCE_ARMED  0b00000101      // create double flashes
-    //#define LED_FLASHER_SEQUENCE_MAX    0b11111111      // full illumination
-    //#define LED_FLASHER_SEQUENCE_LOW    0b00000000      // no illumination
+    #define LED_FLASHER_SEQUENCE        0b00000000      // leds OFF
+    #define LED_FLASHER_SEQUENCE_ARMED  0b00000101      // create double flashes
+    #define LED_FLASHER_SEQUENCE_MAX    0b11111111      // full illumination
+    #define LED_FLASHER_SEQUENCE_LOW    0b11000000      // no illumination
 
 
   /*******************************    Landing lights    *********************************/
@@ -603,9 +597,9 @@ f
      Use an output pin to control landing lights.
      They can be switched automatically when used in conjunction
      with altitude data from a sonar unit. */
-    //#define LANDING_LIGHTS_DDR DDRC
-    //#define LANDING_LIGHTS_PORT PORTC
-    //#define LANDING_LIGHTS_BIT PORTC0
+    #define LANDING_LIGHTS_DDR DDRB
+    #define LANDING_LIGHTS_PORT PORTB
+    #define LANDING_LIGHTS_BIT PORTB5 // D11 on AIOP 2.0
     //#define LANDING_LIGHTS_INVERT
 
     /* altitude above ground (in cm) as reported by sonar */
@@ -640,11 +634,11 @@ f
        in NMEA mode the GPS must be configured to output GGA and RMC NMEA sentences (which is generally the default conf for most GPS devices)
        at least 5Hz update rate. uncomment the first line to select the GPS serial port of the arduino */
        
-    //#define GPS_SERIAL 2         // should be 2 for flyduino v2. It's the serial port number on arduino MEGA
+    #define GPS_SERIAL 2         // should be 2 for flyduino v2. It's the serial port number on arduino MEGA
     //#define GPS_PROMINI_SERIAL   // Will Autosense if GPS is connected when ardu boots.
 
     // avoid using 115200 baud because with 16MHz arduino the 115200 baudrate have more than 2% speed error (57600 have 0.8% error)
-    #define GPS_BAUD   57600
+    #define GPS_BAUD   115200
 
    /* GPS protocol 
        NMEA  - Standard NMEA protocol GGA, GSA and RMC  sentences are needed
@@ -654,7 +648,7 @@ f
 
     
     //#define NMEA
-    //#define UBLOX
+    #define UBLOX
     //#define MTK_BINARY16
     //#define MTK_BINARY19
     //#define INIT_MTK_GPS        // initialize MTK GPS for using selected speed, 5Hz update rate and GGA & RMC sentence or binary settings
@@ -692,7 +686,8 @@ f
        Convert the degree+minutes into decimal degree by ==> degree+minutes*(1/60)
        Note the sign on declination it could be negative or positive (WEST or EAST) */
     //#define MAG_DECLINATION  3.96f              //For Budapest Hungary.
-    #define MAG_DECLINATION  0.0f   //(**)
+    //#define MAG_DECLINATION  0.0f   //(**)
+    #define MAG_DECLINATION  -5.85f   // Jacksonville, FL 20131228
 
     #define GPS_LEAD_FILTER                      // Adds a forward predictive filterig to compensate gps lag. Code based on Jason Short's lead filter implementation
     
@@ -794,8 +789,8 @@ f
   /********************************************************************/
   /****                             RSSI                           ****/
   /********************************************************************/
-    //#define RX_RSSI
-    //#define RX_RSSI_PIN A3
+    #define RX_RSSI
+    #define RX_RSSI_PIN A4
 
   /********************************************************************/
   /****                             Buzzer                         ****/
@@ -813,8 +808,8 @@ f
        with R1=33k and R2=51k
        vbat = [0;1023]*16/VBATSCALE
        must be associated with #define BUZZER ! */
-    //#define VBAT              // uncomment this line to activate the vbat code
-    #define VBATSCALE       131 // (*) (**) change this value if readed Battery voltage is different than real voltage
+    #define VBAT              // uncomment this line to activate the vbat code
+    #define VBATSCALE       130 // (*) (**) change this value if readed Battery voltage is different than real voltage
     #define VBATNOMINAL     126 // 12,6V full battery nominal voltage - only used for lcd.telemetry
     #define VBATLEVEL_WARN1 107 // (*) (**) 10,7V
     #define VBATLEVEL_WARN2  99 // (*) (**) 9.9V
@@ -1042,6 +1037,11 @@ f
     /* Enable string transmissions from copter to GUI */
     //#define DEBUGMSG
 
+    /********************************    FRSKY SMART PORT TELEMETRY    ***********************************/
+    // Uncomment this to enable FrSky Smart Port support:
+    #define FRSKY_SPORT_SERIAL       3     // Use Tx3 and Rx3
+    #define FRSKY_SPORT_A2_MAX       126   // Voltage is FRSKY_SPORT_A2_MAX/10.  E.g. if you set A2 max to 12.6 in companion9x set this to 126.
+    #define FRSKY_SPORT_TEMPERATURE1 BARO  // Just BARO for now (to read baroTemperature)
 
   /********************************************************************/
   /****           ESCs calibration                                 ****/
@@ -1063,7 +1063,7 @@ f
     #define LCD_TELEMETRY_FREQ 23       // to send telemetry data over serial 23 <=> 60ms <=> 16Hz (only sending interlaced, so 8Hz update rate)
     #define LCD_TELEMETRY_AUTO_FREQ  967// to step to next telemetry page 967 <=> 3s
     #define PSENSOR_SMOOTH 16           // len of averaging vector for smoothing the PSENSOR readings; should be power of 2; set to 1 to disable
-    #define VBAT_SMOOTH 16              // len of averaging vector for smoothing the VBAT readings; should be power of 2; set to 1 to disable
+    #define VBAT_SMOOTH 32              // len of averaging vector for smoothing the VBAT readings; should be power of 2; set to 1 to disable
     #define RSSI_SMOOTH 16              // len of averaging vector for smoothing the RSSI readings; should be power of 2; set to 1 to disable
 
   /********************************************************************/
